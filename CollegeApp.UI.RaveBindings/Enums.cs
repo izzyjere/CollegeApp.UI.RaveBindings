@@ -15,6 +15,14 @@ namespace CollegeApp.UI.RaveBindings
         BankTransfer,
         VirtualCard
     }
+    public enum Currency
+    {
+        GHS,
+        KES,
+        RWF,
+        ZMW,
+        UGX
+    }
     public enum Country
     {
         [Description("KE")]
