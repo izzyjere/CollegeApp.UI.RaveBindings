@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace CollegeApp.UI.RaveBindings
@@ -12,18 +13,20 @@ namespace CollegeApp.UI.RaveBindings
     public class JavaScriptInterop : IAsyncDisposable
     {
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
-
-        public JavaScriptInterop(IJSRuntime jsRuntime)
+        private readonly Options options;
+        public JavaScriptInterop(IJSRuntime jsRuntime, Options options)
         {
+            this.options = options;
             moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/CollegeApp.UI.RaveBindings/exampleJsInterop.js").AsTask());
+                "import", "./_content/CollegeApp.UI.RaveBindings/CollegeApp.RaveBindings.min.js").AsTask());
         }
 
-        public async ValueTask<string> Prompt(string message)
+        public async ValueTask<object> MakePayment(PaymentRequest request, object caller)
         {
             var module = await moduleTask.Value;
-            return await module.InvokeAsync<string>("showPrompt", message);
+            return await module.InvokeAsync<object>("makePayment", DotNetObjectReference.Create(caller));             
         }
+
 
         public async ValueTask DisposeAsync()
         {
