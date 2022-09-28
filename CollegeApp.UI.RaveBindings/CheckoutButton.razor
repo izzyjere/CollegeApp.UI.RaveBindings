@@ -1,11 +1,23 @@
 ﻿@inherits OwningComponentBase<PaymentService>
+@inject IJSRuntime javaScript
+@implements IAsyncDisposable
 <div class="m-4">
-   <button @onclick="PayNow" class="btn btn-success"><i class="oi oi-credit-card"/>&nbsp; Make Payment</button>
+    <button @onclick="PayNow" class="btn btn-success">
+        @if (!string.IsNullOrEmpty(IconCss))
+        {
+            <i class="@IconCss"> &nbsp;</i>
+
+        }
+        @ChildContent
+    </button>
 </div>
-@code{
-    [Parameter] public EventCallback<PaymentResponse> OnPaymentComplete {get; set;}
-    [Parameter] public EventCallback<string> OnPaymentFailed { get; set; }
+@code {
+    [Parameter] public EventCallback<PaymentResponse> OnPaymentComplete { get; set; }
+    [Parameter] public EventCallback<string> OnPaymentCancelled { get; set; }
     [Parameter] public PaymentRequest Model { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string? IconCss { get; set; }
+    private IJSObjectReference? moduleTask;
     [JSInvokable]
     public async Task PaymentComplete(string response)
     {
@@ -14,11 +26,30 @@
     }
     async Task PayNow()
     {
-        await Service.MakePayment(Model, this);
+        
+        if (moduleTask !=null)
+        {
+            await moduleTask.InvokeAsync<object>("makePayment", Service.Options.PublicKey, Service.Options.PaymentMethods.Select(o => o.ToDescriptionString()).ToArray(), Model.Currency, Model.Amount, Model.TransactionRef, Model.Customer, Model.CustomerId, Model.CustomerMac, Model.Phone, Model.Email, Service.Options.Title, Service.Options.Description, Service.Options.LogoLocation, DotNetObjectReference.Create(this));
+        }
     }
     [JSInvokable]
     public async Task PaymentFailed(string response)
     {
-        await OnPaymentFailed.InvokeAsync(response);
+        await OnPaymentCancelled.InvokeAsync(response);
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            moduleTask = await javaScript.InvokeAsync<IJSObjectReference>(
+                  "import", "./_content/CollegeApp.UI.RaveBindings/CollegeApp.RaveBindings.min.js");
+        }
+    }
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (moduleTask is not null)
+        {
+            await moduleTask.DisposeAsync();
+        }
     }
 }

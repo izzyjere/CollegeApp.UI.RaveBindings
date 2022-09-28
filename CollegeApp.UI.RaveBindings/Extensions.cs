@@ -19,7 +19,7 @@ namespace CollegeApp.UI.RaveBindings
             if(configuration==null) throw new ArgumentNullException(nameof(configuration));
             var options = new ConfigurationOptions();
             configuration(options);
-            services.TryAddScoped(builder => new PaymentService(builder.GetRequiredService<IJSRuntime>(),options,builder.GetRequiredService<NavigationManager>()));           
+            services.TryAddScoped(builder => new PaymentService(options));           
             return services;
         }
         public static string ToDescriptionString(this Enum val)
