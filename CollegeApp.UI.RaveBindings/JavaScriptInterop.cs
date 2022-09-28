@@ -13,8 +13,8 @@ namespace CollegeApp.UI.RaveBindings
     public class JavaScriptInterop : IAsyncDisposable
     {
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
-        private readonly Options options;
-        public JavaScriptInterop(IJSRuntime jsRuntime, Options options)
+        private readonly ConfigurationOptions options;
+        public JavaScriptInterop(IJSRuntime jsRuntime, ConfigurationOptions options)
         {
             this.options = options;
             moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
@@ -24,7 +24,7 @@ namespace CollegeApp.UI.RaveBindings
         public async ValueTask<object> MakePayment(PaymentRequest request, object caller)
         {
             var module = await moduleTask.Value;
-            return await module.InvokeAsync<object>("makePayment",options.PublicKey,options.PaymentOptions.ToArray(),request.Currency,request.Amount,request.TransactionRef,request.Customer,request.CustomerId,request.CustomerMac,request.Phone,request.Email,options.Title,options.Description,options.LogoUrl,DotNetObjectReference.Create(caller));             
+            return await module.InvokeAsync<object>("makePayment",options.PublicKey,options.PaymentMethods.Select(o=>o.ToDescriptionString()).ToArray(),request.Currency,request.Amount,request.TransactionRef,request.Customer,request.CustomerId,request.CustomerMac,request.Phone,request.Email,options.Title,options.Description,options.LogoUrl,DotNetObjectReference.Create(caller));             
         }
 
 
