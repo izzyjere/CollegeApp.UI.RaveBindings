@@ -1,6 +1,2 @@
-﻿.my-component {
-    border: 2px dashed red;
-    padding: 1em;
-    margin: 1em 0;
-    background-image: url('background.png');
-}
+﻿@import url('wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('wwwroot/css/bootstrap/bootstrap.min.css');
