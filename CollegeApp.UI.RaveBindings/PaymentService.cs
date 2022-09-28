@@ -10,12 +10,12 @@ namespace CollegeApp.UI.RaveBindings
     // This class can be registered as scoped DI service and then injected into Blazor
     // components for use.
 
-    public class JavaScriptInterop : IAsyncDisposable
+    public class PaymentService : IAsyncDisposable
     {
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
         private readonly ConfigurationOptions options;
         private readonly NavigationManager navigationManager;
-        public JavaScriptInterop(IJSRuntime jsRuntime, ConfigurationOptions options, NavigationManager navigationManager)
+        public PaymentService(IJSRuntime jsRuntime, ConfigurationOptions options, NavigationManager navigationManager)
         {
             this.options = options;
             moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
