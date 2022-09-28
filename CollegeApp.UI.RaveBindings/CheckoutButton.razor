@@ -1,0 +1,19 @@
+﻿
+<div class="checkout-button">
+   <button @onclick="PayNow" class="btn btn-success"><i class="oi oi-card"></i>Make Payment</button>
+</div>
+@code{
+    [Parameter] public EventCallback<PaymentResponse> OnPaymentComplete {get; set;}
+    [Parameter] public EventCallback<string> OnPaymentFailed { get; set; }
+    [Parameter] public PaymentRequest Model { get; set; }
+    [JSInvokable]
+    public async Task PaymentComplete(string response)
+    {
+        var paymentResponse = JsonConvert.DeserializeObject<PaymentResponse>(response);
+        await OnPaymentComplete.InvokeAsync(paymentResponse);
+    }
+    async Task PayNow()
+    {
+        await Service.MakePayment(Model, this);
+    }
+}
