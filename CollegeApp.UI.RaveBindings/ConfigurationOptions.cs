@@ -20,6 +20,7 @@ namespace CollegeApp.UI.RaveBindings
             Description = options.Description;
             PublicKey = options.PublicKey;
             PaymentMethods = new List<PaymentOptions>();
+        
         }
         public void AddPaymentOptions(PaymentOptions options)
         {
