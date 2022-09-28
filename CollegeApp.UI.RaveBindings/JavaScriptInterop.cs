@@ -24,7 +24,7 @@ namespace CollegeApp.UI.RaveBindings
         public async ValueTask<object> MakePayment(PaymentRequest request, object caller)
         {
             var module = await moduleTask.Value;
-            return await module.InvokeAsync<object>("makePayment", DotNetObjectReference.Create(caller));             
+            return await module.InvokeAsync<object>("makePayment",options.PublicKey,options.PaymentOptions.ToArray(),request.Currency,request.Amount,request.TransactionRef,request.Customer,request.CustomerId,request.CustomerMac,request.Phone,request.Email,options.Title,options.Description,options.LogoUrl,DotNetObjectReference.Create(caller));             
         }
 
 
