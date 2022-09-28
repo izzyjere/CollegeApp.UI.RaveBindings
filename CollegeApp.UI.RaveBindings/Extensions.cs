@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.JSInterop;
 
 using System;
 using System.Collections.Generic;
@@ -8,12 +11,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CollegeApp.UI.RaveBindings
-{
+{    
     public static class Extensions
-    {
-        public static IServiceCollection AddPaymentServices(this IServiceCollection services)
+    {  
+        public static IServiceCollection AddPaymentServices(this IServiceCollection services, Action<ConfigurationOptions> configuration)
         {
-            services.AddScoped<JavaScriptInterop>();
+            if(configuration==null) throw new ArgumentNullException(nameof(configuration));
+            var options = new ConfigurationOptions();
+            configuration(options);
+            services.TryAddScoped(builder => new JavaScriptInterop(builder.GetRequiredService<IJSRuntime>(),options,builder.GetRequiredService<NavigationManager>()));           
             return services;
         }
         public static string ToDescriptionString(this Enum val)

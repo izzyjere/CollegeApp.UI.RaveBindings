@@ -9,18 +9,22 @@ namespace CollegeApp.UI.RaveBindings
     public class ConfigurationOptions
     {
         public string PublicKey { get; set; }
-        public string LogoUrl { get; set; }
+        public string LogoLocation { get; set; }
         public string Description { get; set; }
         public string Title { get; set; }
         public List<PaymentOptions> PaymentMethods { get; private set; }
         public ConfigurationOptions(ConfigurationOptions options)
         {
-            LogoUrl = options.LogoUrl;
+            LogoLocation = options.LogoLocation;
             Title = options.Title;
             Description = options.Description;
             PublicKey = options.PublicKey;
             PaymentMethods = new List<PaymentOptions>();
         
+        }
+        public ConfigurationOptions()
+        {
+
         }
         public void AddPaymentOptions(PaymentOptions options)
         {
