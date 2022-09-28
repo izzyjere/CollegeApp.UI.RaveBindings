@@ -1,6 +1,6 @@
 ﻿
 <div class="checkout-button">
-   <button @onclick="PayNow" class="btn btn-success"><i class="oi oi-card"></i>&nbsp; Make Payment</button>
+   <button @onclick="PayNow" class="btn btn-success"><i class="oi oi-credit-card"/>&nbsp; Make Payment</button>
 </div>
 @code{
     [Parameter] public EventCallback<PaymentResponse> OnPaymentComplete {get; set;}
@@ -15,5 +15,10 @@
     async Task PayNow()
     {
         await Service.MakePayment(Model, this);
+    }
+    [JSInvokable]
+    public async Task PaymentFailed(string response)
+    {
+        await OnPaymentFailed.InvokeAsync(response);
     }
 }
