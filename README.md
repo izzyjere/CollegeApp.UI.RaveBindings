@@ -52,16 +52,16 @@ builder.Services.AddPaymentServices(options =>
 **Package Manager**
 
 ```sh
-Install-Package CollegeApp.UI.RaveBindings -Version 1.8.3 
+Install-Package CollegeApp.UI.RaveBindings -Version 6.0.0
 ```
 
 **.NET CLI**
 
 ```sh
-dotnet add package CollegeApp.UI.RaveBindings --version 1.8.3
+dotnet add package CollegeApp.UI.RaveBindings --version 6.0.0
 ```
 **PackageReference**
 
 ```sh
-<PackageReference Include="CollegeApp.UI.RaveBindings" Version="1.8.3" />
+<PackageReference Include="CollegeApp.UI.RaveBindings" Version="6.0.0" />
 ```
