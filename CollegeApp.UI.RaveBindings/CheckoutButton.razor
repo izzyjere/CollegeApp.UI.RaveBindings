@@ -1,5 +1,6 @@
 ﻿@inherits OwningComponentBase<PaymentService>
 @inject IJSRuntime javaScript
+@inject NavigationManager navigationManager
 @implements IAsyncDisposable
 <div class="m-4">
     <button @onclick="PayNow" class="btn btn-success">
@@ -29,7 +30,7 @@
         
         if (moduleTask !=null)
         {
-            await moduleTask.InvokeAsync<object>("makePayment", Service.Options.PublicKey, Service.Options.PaymentMethods.Select(o => o.ToDescriptionString()).ToArray(), Model.Currency, Model.Amount, Model.TransactionRef, Model.Customer, Model.CustomerId, Model.CustomerMac, Model.Phone, Model.Email, Service.Options.Title, Service.Options.Description, Service.Options.LogoLocation, DotNetObjectReference.Create(this));
+            await moduleTask.InvokeAsync<object>("makePayment", Service.Options.PublicKey, Service.Options.PaymentMethods.Select(o => o.ToDescriptionString()).ToArray(), Model.Currency, Model.Amount, Model.TransactionRef, Model.Customer, Model.CustomerId, Model.CustomerMac, Model.Phone, Model.Email, Service.Options.Title, Service.Options.Description, $"{navigationManager.BaseUri}/{Service.Options.LogoLocation}", DotNetObjectReference.Create(this));
         }
     }
     [JSInvokable]
