@@ -11,6 +11,7 @@ builder.Services.AddPaymentServices(options =>
 {
     options.AddPaymentOptions(PaymentOptions.MobileMoneyZambia); // can add multiple payment methods
     options.Title = "Title to show on the checkout modal";
+    options.LogoLocation = "assets/img/logo.png";
     options.Description = "Description to show on the modal";
     options.PublicKey = "Your-Public Key Here";
 });
