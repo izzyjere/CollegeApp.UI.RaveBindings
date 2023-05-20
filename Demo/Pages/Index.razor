@@ -1,0 +1,39 @@
+﻿@page "/"
+@using CollegeApp.UI.RaveBindings
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+<CheckoutButton Model="@request"
+                IconCss="oi oi-credit-card"
+                OnPaymentCancelled="FailedToPay"
+                OnPaymentComplete="ProcessPayment">
+    Pay Now
+</CheckoutButton>
+@code {
+    PaymentRequest request = new PaymentRequest
+        {
+
+            Amount = 10,
+            Currency = "ZMW",
+            Email = "example@email.com",
+            Phone ="0960000000",
+            Customer = "Wisdom Jere",
+            CustomerId = "1102",
+            CustomerMac = "JustTesting",
+
+        };
+    void ProcessPayment(PaymentResponse response)
+    {
+        //Validate payment and save to db
+    }
+    void FailedToPay(string respose)
+    {
+        //Do with analytics incase payment was cancelled
+    }
+}
