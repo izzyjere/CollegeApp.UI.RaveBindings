@@ -66,3 +66,5 @@ dotnet add package CollegeApp.UI.RaveBindings --version 6.0.3
 ```sh
 <PackageReference Include="CollegeApp.UI.RaveBindings" Version="6.0.3" />
 ```
+Sometimes the Flutterwave Backend Server Might be down So You can Haddle exceptions as needed.
+![image](https://github.com/izzyjere/CollegeApp.UI.RaveBindings/assets/46313732/9b752c4d-c7ee-42c3-9cc5-e254cebd1ecf)
